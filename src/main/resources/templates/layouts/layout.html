@@ -6,7 +6,10 @@
 <head layout:replace="~{/layouts/partials/head}"></head>
 <body class="" th:fragment="layout(vCenter, currentPage)">
 <div id="react-content">
-    <a class="ant-btn ant-btn-danger" th:href="@{/logout}">Logout</a>
+    <form class="" method="post" action="/logout">
+        <input th:name="_csrf" type="hidden" th:value="${_csrf.token}">
+        <button class="ant-btn ant-btn-lg ant-btn-dangerous btn-block" type="submit">Log Out</button>
+    </form>
 
     <div class="main-wrapper">
         <div class="ant-row">

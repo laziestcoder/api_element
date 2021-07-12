@@ -16,7 +16,7 @@
     <link href="https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png" rel="icon" type="image/x-icon"/>
 
     <link rel="stylesheet" th:href="@{/css/ant.css}" type="text/css"/>
-    <link rel="stylesheet" th:href="@{/css/ant.less}" type="text/css"/>
+    <link rel="stylesheet/less" th:href="@{/css/ant.less}" type="text/css"/>
 
     <style id="nprogress-style">
         #nprogress {
@@ -86,7 +86,10 @@
 </head>
 <body>
 <div id="react-content">
-    <a class="ant-btn ant-btn-danger" th:href="@{/logout}">Logout</a>
+    <form class="" method="post" th:action="@{/logout}">
+        <input th:name="_csrf" type="hidden" th:value="${_csrf.token}">
+        <button class="ant-btn ant-btn-lg ant-btn-dangerous btn-block" type="submit">Log Out</button>
+    </form>
 
     <div class="main-wrapper">
         <div class="ant-row">
@@ -1820,7 +1823,7 @@
         </div>
     </div>
 </div>
-<!--<script src="/index-cab025ce.js"></script>-->
+<script th:src="@{/js/ant.js}"></script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72788897-1"></script>
 <script>
