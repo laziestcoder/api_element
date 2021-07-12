@@ -11,7 +11,7 @@
 	<groupId>com.towfiq</groupId>
 	<artifactId>api_element</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>api_element</name>
 	<description>Demo project</description>
 	<properties>
