@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar ./target/${project.build.finalName}.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar ./target/web-element-0.0.1-SNAPSHOT.jar
