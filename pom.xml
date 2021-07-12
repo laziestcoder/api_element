@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.towfiq</groupId>
-	<artifactId>api_element</artifactId>
+	<artifactId>web-element</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>api_element</name>
+	<name>web-element</name>
 	<description>Demo project</description>
 	<dependencies>
         <dependency>
