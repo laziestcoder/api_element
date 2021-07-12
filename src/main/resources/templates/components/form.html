@@ -84,6 +84,7 @@
 </head>
 <body>
 <div id="react-content">
+    <a class="ant-btn ant-btn-danger" th:href="@{/logout}">Logout</a>
     <div class="main-wrapper">
         <div class="ant-row">
             <div
@@ -15019,5 +15020,14 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
     data-cf-beacon='{"rayId":"66d4e436e8d53360","version":"2021.6.0","r":1,"token":"99e8e5822a844cdaa1916725da659cf2","si":10}'
     defer
     src="https://static.cloudflareinsights.com/beacon.min.js"></script>
+<script th:src="@{/plugins/jquery-3.5.1/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/plugins/js.cookie.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('button[type="submit"]').on('click', function () {
+            alert('Submission successful');
+        });
+    });
+</script>
 </body>
 </html>
