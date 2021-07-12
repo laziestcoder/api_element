@@ -1,0 +1,85 @@
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Components Overview - Towfiq Design</title>
+    <meta content="website" data-rh="true" property="og:type"/>
+    <meta content="https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png" data-rh="true"
+          property="og:image"/>
+    <meta content="Components Overview - Towfiq Design" data-rh="true" property="og:title"/>
+    <meta
+        content="antd provides plenty of UI components to enrich your web applications, and we will improve components experience consistently. We also recommend some great Third-Party Libraries additionally."
+        data-rh="true"
+        name="description"/>
+    <link href="https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png" rel="icon" type="image/x-icon"/>
+
+    <link rel="stylesheet" th:href="@{/css/ant.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/ant.less}" type="text/css"/>
+
+
+    <style id="nprogress-style">
+        #nprogress {
+            display: none;
+        }
+    </style>
+
+    <script src="https://b.alicdn.com/s/polyfill.min.js?features=default,es2015,Intl"></script>
+    <script>
+        (function () {
+            function isLocalStorageNameSupported() {
+                var testKey = 'test';
+                var storage = window.localStorage;
+                try {
+                    storage.setItem(testKey, '1');
+                    storage.removeItem(testKey);
+                    return true;
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            // 优先级提高到所有静态资源的前面，语言不对，加载其他静态资源没意义
+            var pathname = location.pathname;
+
+            function isZhCN(pathname) {
+                return /-cn\/?$/.test(pathname);
+            }
+
+            function getLocalizedPathname(path, zhCN) {
+                var pathname = path.startsWith('/') ? path : '/' + path;
+                if (!zhCN) {
+                    // to enUS
+                    return /\/?index-cn/.test(pathname) ? '/' : pathname.replace('-cn', '');
+                } else if (pathname === '/') {
+                    return '/index-cn';
+                } else if (pathname.endsWith('/')) {
+                    return pathname.replace(/\/$/, '-cn/');
+                }
+                return pathname + '-cn';
+            }
+
+            // 兼容旧的 URL， `?locale=...`
+            var queryString = location.search;
+            if (queryString) {
+                var isZhCNConfig = queryString.indexOf('zh-CN') > -1;
+                if (isZhCNConfig && !isZhCN(pathname)) {
+                    location.pathname = getLocalizedPathname(pathname, isZhCNConfig);
+                }
+            }
+
+            // 首页无视链接里面的语言设置 https://github.com/ant-design/ant-design/issues/4552
+            if (isLocalStorageNameSupported() && (pathname === '/' || pathname === '/index-cn')) {
+                var lang =
+                    (window.localStorage && localStorage.getItem('locale')) ||
+                    ((navigator.language || navigator.browserLanguage).toLowerCase() === 'zh-cn'
+                        ? 'zh-CN'
+                        : 'en-US');
+                // safari is 'zh-cn', while other browser is 'zh-CN';
+                if ((lang === 'zh-CN') !== isZhCN(pathname)) {
+                    location.pathname = getLocalizedPathname(pathname, lang === 'zh-CN');
+                }
+            }
+            document.documentElement.className += isZhCN(pathname) ? 'zh-cn' : 'en-us';
+        })();
+    </script>
+</head>

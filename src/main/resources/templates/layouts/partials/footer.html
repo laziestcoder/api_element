@@ -1,0 +1,42 @@
+<footer class="" th:fragment="footer">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72788897-1"></script>
+    <script>
+        if (!location.port) {
+            // Enable Google Analytics
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+            gtag('config', 'UA-72788897-1');
+        }
+    </script>
+
+    <script>
+        (function (h, o, t, j, a, r) {
+            if (location.hostname === 'localhost') {
+                return;
+            }
+
+            h.hj =
+                h.hj ||
+                function () {
+                    (h.hj.q = h.hj.q || []).push(arguments);
+                };
+            h._hjSettings = {hjid: 473408, hjsv: 5};
+            a = o.getElementsByTagName('head')[0];
+            r = o.createElement('script');
+            r.async = 1;
+            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
+
+    <script
+        data-cf-beacon='{"rayId":"66ccb08aaaa15688","version":"2021.6.0","r":1,"token":"99e8e5822a844cdaa1916725da659cf2","si":10}'
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"></script>
+</footer>

@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html class="" data-direction="ltr" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title> Carousel - Towfiq Design</title>
+    <meta content="website" data-rh="true" property="og:type"/>
+    <meta content="https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png" data-rh="true"
+          property="og:image"/>
+    <meta content=" Carousel - Towfiq Design" data-rh="true" property="og:title"/>
+    <meta content="A carousel component. Scales with its container." data-rh="true" name="description"/>
+    <link href="https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png" rel="icon" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/ant.css}" type="text/css"/>
+
+    <style id="nprogress-style">
+        #nprogress {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/ant.less}" type="text/css"/>
+    <script src="https://b.alicdn.com/s/polyfill.min.js?features=default,es2015,Intl"></script>
+    <script>
+        (function () {
+            function isLocalStorageNameSupported() {
+                var testKey = 'test';
+                var storage = window.localStorage;
+                try {
+                    storage.setItem(testKey, '1');
+                    storage.removeItem(testKey);
+                    return true;
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            // 优先级提高到所有静态资源的前面，语言不对，加载其他静态资源没意义
+            var pathname = location.pathname;
+
+            function isZhCN(pathname) {
+                return /-cn\/?$/.test(pathname);
+            }
+
+            function getLocalizedPathname(path, zhCN) {
+                var pathname = path.startsWith('/') ? path : '/' + path;
+                if (!zhCN) {
+                    // to enUS
+                    return /\/?index-cn/.test(pathname) ? '/' : pathname.replace('-cn', '');
+                } else if (pathname === '/') {
+                    return '/index-cn';
+                } else if (pathname.endsWith('/')) {
+                    return pathname.replace(/\/$/, '-cn/');
+                }
+                return pathname + '-cn';
+            }
+
+            // 兼容旧的 URL， `?locale=...`
+            var queryString = location.search;
+            if (queryString) {
+                var isZhCNConfig = queryString.indexOf('zh-CN') > -1;
+                if (isZhCNConfig && !isZhCN(pathname)) {
+                    location.pathname = getLocalizedPathname(pathname, isZhCNConfig);
+                }
+            }
+
+            // 首页无视链接里面的语言设置 https://github.com/ant-design/ant-design/issues/4552
+            if (isLocalStorageNameSupported() && (pathname === '/' || pathname === '/index-cn')) {
+                var lang =
+                    (window.localStorage && localStorage.getItem('locale')) ||
+                    ((navigator.language || navigator.browserLanguage).toLowerCase() === 'zh-cn'
+                        ? 'zh-CN'
+                        : 'en-US');
+                // safari is 'zh-cn', while other browser is 'zh-CN';
+                if ((lang === 'zh-CN') !== isZhCN(pathname)) {
+                    location.pathname = getLocalizedPathname(pathname, lang === 'zh-CN');
+                }
+            }
+            document.documentElement.className += isZhCN(pathname) ? 'zh-cn' : 'en-us';
+        })();
+    </script>
+</head>
+<body>
+<div id="react-content">
+    <div class="main-wrapper">
+        <div class="ant-row">
+            <div
+                class="ant-col main-menu ant-col-xs-24 ant-col-sm-24 ant-col-md-6 ant-col-lg-6 ant-col-xl-5 ant-col-xxl-4">
+                <div>
+                    <div class="">
+                        <section class="main-menu-inner">
+                            <ul class="ant-menu ant-menu-root ant-menu-inline ant-menu-light aside-container menu-site"
+                                data-menu-list="true" dir="ltr" role="menu" tabindex="0">
+                                <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                    style="padding-left:30px" tabindex="-1"><span class="ant-menu-title-content"><a
+                                    href="/components/overview/"><span>Components Overview</span><span
+                                    class="chinese"></span></a></span></li>
+                                <li class="ant-menu-item-group">
+                                    <div class="ant-menu-item-group-title" title="General">General</div>
+                                    <ul class="ant-menu-item-group-list">
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/button/"><span>Button</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/icon/"><span>Icon</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/typography/"><span>Typography</span><span
+                                            class="chinese"></span></a></span></li>
+                                    </ul>
+                                </li>
+                                <li class="ant-menu-item-group">
+                                    <div class="ant-menu-item-group-title" title="Layout">Layout</div>
+                                    <ul class="ant-menu-item-group-list">
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/divider/"><span>Divider</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/grid/"><span>Grid</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/layout/"><span>Layout</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/space/"><span>Space</span><span
+                                            class="chinese"></span></a></span></li>
+                                    </ul>
+                                </li>
+                                <li class="ant-menu-item-group">
+                                    <div class="ant-menu-item-group-title" title="Navigation">Navigation</div>
+                                    <ul class="ant-menu-item-group-list">
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/affix/"><span>Affix</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/breadcrumb/"><span>Breadcrumb</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/dropdown/"><span>Dropdown</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/menu/"><span>Menu</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/page-header/"><span>PageHeader</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/pagination/"><span>Pagination</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/steps/"><span>Steps</span><span
+                                            class="chinese"></span></a></span></li>
+                                    </ul>
+                                </li>
+                                <li class="ant-menu-item-group">
+                                    <div class="ant-menu-item-group-title" title="Data Entry">Data Entry</div>
+                                    <ul class="ant-menu-item-group-list">
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/auto-complete/"><span>AutoComplete</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/cascader/"><span>Cascader</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/checkbox/"><span>Checkbox</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/date-picker/"><span>DatePicker</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/form/"><span>Form</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/input/"><span>Input</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/input-number/"><span>InputNumber</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/mentions/"><span>Mentions</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/radio/"><span>Radio</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/rate/"><span>Rate</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/select/"><span>Select</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/slider/"><span>Slider</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/switch/"><span>Switch</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/time-picker/"><span>TimePicker</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/transfer/"><span>Transfer</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/tree-select/"><span>TreeSelect</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/upload/"><span>Upload</span><span class="chinese"></span></a></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ant-menu-item-group">
+                                    <div class="ant-menu-item-group-title" title="Data Display">Data Display</div>
+                                    <ul class="ant-menu-item-group-list">
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/avatar/"><span>Avatar</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/badge/"><span>Badge</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/calendar/"><span>Calendar</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/card/"><span>Card</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-selected ant-menu-item-only-child"
+                                            role="menuitem" style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a href="/components/carousel/"><span>Carousel</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/collapse/"><span>Collapse</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/comment/"><span>Comment</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/descriptions/"><span>Descriptions</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/empty/"><span>Empty</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/image/"><span>Image</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/list/"><span>List</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/popover/"><span>Popover</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/statistic/"><span>Statistic</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/table/"><span>Table</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/tabs/"><span>Tabs</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/tag/"><span>Tag</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/timeline/"><span>Timeline</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/tooltip/"><span>Tooltip</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/tree/"><span>Tree</span><span class="chinese"></span></a></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ant-menu-item-group">
+                                    <div class="ant-menu-item-group-title" title="Feedback">Feedback</div>
+                                    <ul class="ant-menu-item-group-list">
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/alert/"><span>Alert</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/drawer/"><span>Drawer</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/message/"><span>Message</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/modal/"><span>Modal</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/notification/"><span>Notification</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/popconfirm/"><span>Popconfirm</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/progress/"><span>Progress</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/result/"><span>Result</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/skeleton/"><span>Skeleton</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/spin/"><span>Spin</span><span class="chinese"></span></a></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="ant-menu-item-group">
+                                    <div class="ant-menu-item-group-title" title="Other">Other</div>
+                                    <ul class="ant-menu-item-group-list">
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/anchor/"><span>Anchor</span><span class="chinese"></span></a></span>
+                                        </li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/back-top/"><span>BackTop</span><span
+                                            class="chinese"></span></a></span></li>
+                                        <li class="ant-menu-item ant-menu-item-only-child" role="menuitem"
+                                            style="padding-left:30px" tabindex="-1"><span
+                                            class="ant-menu-title-content"><a
+                                            href="/components/config-provider/"><span>ConfigProvider</span><span
+                                            class="chinese"></span></a></span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div aria-hidden="true" style="display:none"></div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="ant-col ant-col-xs-24 ant-col-sm-24 ant-col-md-18 ant-col-lg-18 ant-col-xl-19 ant-col-xxl-20">
+                <section class="main-container main-container-component">
+                    <article>
+                        <div class="toc-affix">
+                            <div class="">
+                                <ul class="toc" id="demo-toc">
+                                    <li class="" title="Basic"><a href="#components-carousel-demo-basic">Basic</a></li>
+                                    <li class="" title="Position"><a
+                                        href="#components-carousel-demo-position">Position</a></li>
+                                    <li class="" title="Scroll automatically"><a
+                                        href="#components-carousel-demo-autoplay">Scroll automatically</a></li>
+                                    <li class="" title="Fade in"><a href="#components-carousel-demo-fade">Fade in</a>
+                                    </li>
+                                    <li title="API"><a href="#API">API</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <section class="markdown">
+                            <h1>Carousel<a class="edit-button"
+                                           href="https://github.com/ant-design/ant-design/edit/master/components/carousel/index.en-US.md"
+                                           rel="noopener noreferrer" target="_blank"><span aria-label="edit"
+                                                                                           class="anticon anticon-edit"
+                                                                                           role="img"><svg
+                                aria-hidden="true" data-icon="edit" fill="currentColor" focusable="false" height="1em"
+                                viewBox="64 64 896 896" width="1em"><path
+                                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"></path></svg></span></a>
+                            </h1>
+                            <section class="markdown"><p>A carousel component. Scales with its container.</p>
+                                <h2 id="When-To-Use"><span>When To Use</span><a class="anchor" href="#When-To-Use">#</a>
+                                </h2>
+                                <ul>
+                                    <li><p>When there is a group of content on the same level.</p></li>
+                                    <li><p>When there is insufficient content space, it can be used to save space in the
+                                        form of a revolving door.</p></li>
+                                    <li><p>Commonly used for a group of pictures/cards.</p></li>
+                                </ul>
+                            </section>
+                            <h2>Examples<span class="all-code-box-controls"><span aria-label="code"
+                                                                                  class="anticon anticon-code code-box-expand-trigger"
+                                                                                  role="img"
+                                                                                  tabindex="-1"><svg
+                                aria-hidden="true" data-icon="code" fill="currentColor" focusable="false" height="1em"
+                                viewBox="64 64 896 896" width="1em"><path
+                                d="M516 673c0 4.4 3.4 8 7.5 8h185c4.1 0 7.5-3.6 7.5-8v-48c0-4.4-3.4-8-7.5-8h-185c-4.1 0-7.5 3.6-7.5 8v48zm-194.9 6.1l192-161c3.8-3.2 3.8-9.1 0-12.3l-192-160.9A7.95 7.95 0 00308 351v62.7c0 2.4 1 4.6 2.9 6.1L420.7 512l-109.8 92.2a8.1 8.1 0 00-2.9 6.1V673c0 6.8 7.9 10.5 13.1 6.1zM880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"></path></svg></span><span
+                                aria-label="bug" class="anticon anticon-bug code-box-expand-trigger" role="img"
+                                tabindex="-1"><svg aria-hidden="true"
+                                                   data-icon="bug"
+                                                   fill="currentColor" focusable="false"
+                                                   height="1em"
+                                                   viewBox="64 64 896 896"
+                                                   width="1em"><path
+                                d="M304 280h56c4.4 0 8-3.6 8-8 0-28.3 5.9-53.2 17.1-73.5 10.6-19.4 26-34.8 45.4-45.4C450.9 142 475.7 136 504 136h16c28.3 0 53.2 5.9 73.5 17.1 19.4 10.6 34.8 26 45.4 45.4C650 218.9 656 243.7 656 272c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8 0-40-8.8-76.7-25.9-108.1a184.31 184.31 0 00-74-74C596.7 72.8 560 64 520 64h-16c-40 0-76.7 8.8-108.1 25.9a184.31 184.31 0 00-74 74C304.8 195.3 296 232 296 272c0 4.4 3.6 8 8 8z"></path><path
+                                d="M940 512H792V412c76.8 0 139-62.2 139-139 0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8a63 63 0 01-63 63H232a63 63 0 01-63-63c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 76.8 62.2 139 139 139v100H84c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h148v96c0 6.5.2 13 .7 19.3C164.1 728.6 116 796.7 116 876c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8 0-44.2 23.9-82.9 59.6-103.7a273 273 0 0022.7 49c24.3 41.5 59 76.2 100.5 100.5S460.5 960 512 960s99.8-13.9 141.3-38.2a281.38 281.38 0 00123.2-149.5A120 120 0 01836 876c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8 0-79.3-48.1-147.4-116.7-176.7.4-6.4.7-12.8.7-19.3v-96h148c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM716 680c0 36.8-9.7 72-27.8 102.9-17.7 30.3-43 55.6-73.3 73.3C584 874.3 548.8 884 512 884s-72-9.7-102.9-27.8c-30.3-17.7-55.6-43-73.3-73.3A202.75 202.75 0 01308 680V412h408v268z"></path></svg></span></span>
+                            </h2>
+                        </section>
+                        <div class="ant-row" style="margin-left:-8px;margin-right:-8px">
+                            <div class="ant-col ant-col-12 code-boxes-col-2-1"
+                                 style="padding-left:8px;padding-right:8px">
+                                <section class="code-box" id="components-carousel-demo-basic">
+                                    <section class="code-box-demo">
+                                        <div class="ant-carousel">
+                                            <div class="slick-slider slick-initialized" dir="ltr">
+                                                <div class="slick-list">
+                                                    <div class="slick-track" style="width:900%;left:-100%">
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="-1" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="false"
+                                                             class="slick-slide slick-active slick-current"
+                                                             data-index="0"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    1</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="1"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    2</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="2"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    3</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="3"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="4" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    1</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="5" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    2</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="6" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    3</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="7" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="slick-dots slick-dots-bottom" style="display:block">
+                                                    <li class="slick-active">
+                                                        <button>1</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>2</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>3</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>4</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="code-box-meta markdown">
+                                        <div class="code-box-title"><a
+                                            href="#components-carousel-demo-basic">Basic</a><a class="edit-button"
+                                                                                               href="https://github.com/ant-design/ant-design/edit/master/components/carousel/demo/basic.md"
+                                                                                               rel="noopener noreferrer"
+                                                                                               target="_blank"><span
+                                            aria-label="edit" class="anticon anticon-edit" role="img"><svg
+                                            aria-hidden="true" data-icon="edit" fill="currentColor" focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"></path></svg></span></a>
+                                        </div>
+                                        <div class="code-box-description">
+                                            <div><p>Basic usage.</p></div>
+                                        </div>
+                                        <div class="code-box-actions">
+                                            <form action="https://codesandbox.io/api/v1/sandboxes/define"
+                                                  class="code-box-code-action" method="POST"
+                                                  target="_blank"><input name="parameters" type="hidden"
+                                                                         value="N4IgZglgNgpgziAXKADgQwMYGs0HMYB0AVnAPYB2SoGFALjObVSLRLbEiAEJpwQYACALQC0jACYABACwEAjADYCCkABoQAWzQRKiEDvEwAHsQTrDKBofIYI8ZmNrjOsxcrUhJjoYb65yAPT8FAh6UGj0cEzqAE4wmEx6AHpucrIADB5xCT6kGpwpSmkEmbHxGLRCcBgxECi0oSBJGSUgAL7mMABuACIwluTWtvbILACeltW19QUtAKzt6lN1DcxRaDGJINkVVTUrcALrmx4ARgCu0M56O5XL9YcXVx6RW7d70w0Cr8JCDF0AXhI4jyHhgRBgFU473uX3BkKYHRApxipAA7nAYDE4FAIFEkABtEAAPnSBAATABSDzkUi0ASGNDOdS0-l2AQAHgBAjkchpdIEpBQAH0NDoIKIoFAQABdNpIgzGAgYOChah0BhbRb6QZKkjMGiMTWcCAaFCkTYCABK5XpYFRGgEAHJbk6ANwAHXIpvNlptCR6AHkALICe15Z3vEEad1en0W-lOxziALiPG0ALJ5Wq2Pes0J50EIK6kwquDu7WKkwAC1oGmlo0N9EYnA5AEIgwBhAAqAE0AAoAUQEtfrxK9HNHUAE4XIuABHpADEX4_IAk51fi4lX6_XHI0MFoaAEGGrG0xtAXIHOtDAQgAHCuvbvOQejwJyGgD1eunY0b7aEXE8NUYK80QgcRaGrAFDF_DAYCEcDIOrVQBHFVg0CgPZMJgAE5FQuBq1qcgsCEWhSCESBL1pJ8113fdD2PT9v0XKCYAPIQaCgC0gKbTUrwAYnSYSRNovcAk3Jkd05U5SHEMZpL3NMujQ8QrybbRyCxICojGWAr3QcQ0znRABHJaQUCMICAkUzlYWJLoNgEDRSHORgADk5JgARuRBDBzgPRgCHwWhB1gQLaC4MYAElxAACidDSdCxJ0AEo3Q5AJ7OfTkAlk-TV0yqdiXaeUgA"/><span
+                                                class="anticon code-box-codesandbox" role="img"><svg
+                                                fill="currentColor" viewBox="0 0 1024 1024"><path
+                                                d="M755 140.3l0.5-0.3h0.3L512 0 268.3 140h-0.3l0.8 0.4L68.6 256v512L512 1024l443.4-256V256L755 140.3z m-30 506.4v171.2L548 920.1V534.7L883.4 341v215.7l-158.4 90z m-584.4-90.6V340.8L476 534.4v385.7L300 818.5V646.7l-159.4-90.6zM511.7 280l171.1-98.3 166.3 96-336.9 194.5-337-194.6 165.7-95.7L511.7 280z"></path></svg></span>
+                                            </form>
+                                            <form action="https://codepen.io/pen/define" class="code-box-code-action"
+                                                  method="POST" style="display:none" target="_blank"><input
+                                                name="data" type="hidden"
+                                                value="{&quot;title&quot;:&quot;Basic - antd@4.16.6&quot;,&quot;html&quot;:&quot;&lt;!DOCTYPE html&gt;\n&lt;html lang=\&quot;en\&quot;&gt;\n  &lt;head&gt;\n    &lt;meta charset=\&quot;utf-8\&quot;&gt;\n    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1, shrink-to-fit=no\&quot;&gt;\n    &lt;meta name=\&quot;theme-color\&quot; content=\&quot;#000000\&quot;&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;div id=\&quot;container\&quot; style=\&quot;padding: 24px\&quot; /&gt;\n    &lt;script&gt;var mountNode = document.getElementById(&#x27;container&#x27;);&lt;/script&gt;\n  &lt;/body&gt;\n&lt;/html&gt;&quot;,&quot;js&quot;:&quot;&quot;,&quot;css&quot;:&quot;@import &#x27;~antd/dist/antd.css&#x27;;\n\n&quot;,&quot;editors&quot;:&quot;001&quot;,&quot;css_external&quot;:&quot;https://unpkg.com/antd@4.16.6/dist/antd.css&quot;,&quot;js_external&quot;:&quot;https://unpkg.com/react@16.x/umd/react.development.js;https://unpkg.com/react-dom@16.x/umd/react-dom.development.js;https://unpkg.com/moment/min/moment-with-locales.js;https://unpkg.com/antd@4.16.6/dist/antd-with-locales.js;https://unpkg.com/@ant-design/icons/dist/index.umd.js;https://unpkg.com/react-router-dom/umd/react-router-dom.min.js;https://unpkg.com/react-router@3.x/umd/ReactRouter.min.js&quot;,&quot;js_pre_processor&quot;:&quot;typescript&quot;}"/><span
+                                                class="anticon code-box-codepen" role="img"><svg fill="currentColor"
+                                                                                                 viewBox="0 0 15 15"><path
+                                                d="M14.777304,4.75062256 L7.77734505,0.0839936563 C7.60939924,-0.0279665065 7.39060662,-0.0279665065 7.22266081,0.0839936563 L0.222701813,4.75062256 C0.0836082937,4.84334851 5.66973453e-05,4.99945222 4.6875e-05,5.16662013 L4.6875e-05,9.83324903 C4.6875e-05,10.0004355 0.0836088906,10.1565596 0.222701812,10.2492466 L7.22266081,14.9158755 C7.30662908,14.9718752 7.403316,14.999875 7.50000292,14.999875 C7.59668984,14.999875 7.69337678,14.9718752 7.77734505,14.9158755 L14.777304,10.2492466 C14.9163976,10.1565206 14.9999492,10.0004169 14.999959,9.83324903 L14.999959,5.16662013 C14.9999492,4.99945222 14.9163976,4.84334851 14.777304,4.75062256 Z M7.50000292,9.23237755 L4.90139316,7.4999502 L7.50000292,5.76755409 L10.0986127,7.4999502 L7.50000292,9.23237755 Z M8,4.89905919 L8,1.43423573 L13.598561,5.16665138 L10.9999824,6.89904747 L8,4.89905919 Z M7.00000586,4.89905919 L4.00002344,6.89904747 L1.40141366,5.16665138 L7.00000586,1.43423573 L7.00000586,4.89905919 Z M3.09865372,7.4999502 L1.00004102,8.89903575 L1.00004102,6.10089589 L3.09865372,7.4999502 Z M4.00002344,8.10085292 L7.00000586,10.1008412 L7.00000586,13.5656334 L1.40141366,9.83328028 L4.00002344,8.10085292 Z M8,10.1008412 L10.9999824,8.10085292 L13.5985922,9.83328028 L8,13.5656647 L8,10.1008412 L8,10.1008412 Z M11.9013521,7.4999502 L13.9999648,6.10089589 L13.9999648,8.899067 L11.9013521,7.4999502 Z"></path></svg></span>
+                                            </form>
+                                            <span class="code-box-code-action"><span aria-label="thunderbolt"
+                                                                                     class="anticon anticon-thunderbolt code-box-stackblitz"
+                                                                                     role="img"><svg
+                                                aria-hidden="true" data-icon="thunderbolt" fill="currentColor"
+                                                focusable="false" height="1em" viewBox="64 64 896 896" width="1em"><path
+                                                d="M848 359.3H627.7L825.8 109c4.1-5.3.4-13-6.3-13H436c-2.8 0-5.5 1.5-6.9 4L170 547.5c-3.1 5.3.7 12 6.9 12h174.4l-89.4 357.6c-1.9 7.8 7.5 13.3 13.3 7.7L853.5 373c5.2-4.9 1.7-13.7-5.5-13.7zM378.2 732.5l60.3-241H281.1l189.6-327.4h224.6L487 427.4h211L378.2 732.5z"></path></svg></span></span><span
+                                            aria-label="snippets"
+                                            class="anticon anticon-snippets code-box-code-copy code-box-code-action"
+                                            role="img"
+                                            tabindex="-1"><svg
+                                            aria-hidden="true" data-icon="snippets" fill="currentColor"
+                                            focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M832 112H724V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H500V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H320c-17.7 0-32 14.3-32 32v120h-96c-17.7 0-32 14.3-32 32v632c0 17.7 14.3 32 32 32h512c17.7 0 32-14.3 32-32v-96h96c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zM664 888H232V336h218v174c0 22.1 17.9 40 40 40h174v338zm0-402H514V336h.2L664 485.8v.2zm128 274h-56V456L544 264H360v-80h68v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h152v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h68v576z"></path></svg></span><span
+                                            class="code-expand-icon code-box-code-action"><img alt="expand code"
+                                                                                               class="code-expand-icon-show"
+                                                                                               src="https://gw.alipayobjects.com/zos/antfincdn/Z5c7kzvi30/expand.svg"/><img
+                                            alt="expand code"
+                                            class="code-expand-icon-hide"
+                                            src="https://gw.alipayobjects.com/zos/antfincdn/4zAaozCvUH/unexpand.svg"/></span>
+                                        </div>
+                                    </section>
+                                    <section class="highlight-wrapper">
+                                        <div class="highlight"><pre class="language-jsx"><code><span
+                                            class="token keyword">import</span> <span class="token punctuation">{</span> Carousel <span
+                                            class="token punctuation">}</span> <span
+                                            class="token keyword">from</span> <span
+                                            class="token string">'antd'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">onChange</span><span class="token punctuation">(</span><span
+                                                class="token parameter">a<span class="token punctuation">,</span> b<span
+                                                class="token punctuation">,</span> c</span><span
+                                                class="token punctuation">)</span> <span
+                                                class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span
+                                                class="token punctuation">,</span> b<span
+                                                class="token punctuation">,</span> c<span
+                                                class="token punctuation">)</span><span
+                                                class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> contentStyle <span class="token operator">=</span> <span
+                                                class="token punctuation">{</span>
+  height<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  color<span class="token operator">:</span> <span class="token string">'#fff'</span><span
+                                                class="token punctuation">,</span>
+  lineHeight<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  textAlign<span class="token operator">:</span> <span class="token string">'center'</span><span
+                                                class="token punctuation">,</span>
+  background<span class="token operator">:</span> <span class="token string">'#364d79'</span><span
+                                                class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span
+                                                class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+      class="token class-name">Carousel</span></span> <span class="token attr-name">afterChange</span><span
+      class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span
+      class="token punctuation">{</span>onChange<span class="token punctuation">}</span></span><span
+      class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">1</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">2</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">3</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">4</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span
+      class="token class-name">Carousel</span></span><span class="token punctuation">></span></span><span
+                                                class="token punctuation">,</span>
+  mountNode<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                                        </div>
+                                    </section>
+                                </section>
+                                <section class="code-box" id="components-carousel-demo-autoplay">
+                                    <section class="code-box-demo">
+                                        <div class="ant-carousel">
+                                            <div class="slick-slider slick-initialized" dir="ltr">
+                                                <div class="slick-list">
+                                                    <div class="slick-track" style="width:900%;left:-100%">
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="-1" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="false"
+                                                             class="slick-slide slick-active slick-current"
+                                                             data-index="0"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    1</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="1"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    2</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="2"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    3</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="3"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="4" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    1</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="5" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    2</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="6" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    3</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="7" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="slick-dots slick-dots-bottom" style="display:block">
+                                                    <li class="slick-active">
+                                                        <button>1</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>2</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>3</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>4</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="code-box-meta markdown">
+                                        <div class="code-box-title"><a href="#components-carousel-demo-autoplay">Scroll
+                                            automatically</a><a class="edit-button"
+                                                                href="https://github.com/ant-design/ant-design/edit/master/components/carousel/demo/autoplay.md"
+                                                                rel="noopener noreferrer" target="_blank"><span
+                                            aria-label="edit" class="anticon anticon-edit" role="img"><svg
+                                            aria-hidden="true" data-icon="edit" fill="currentColor" focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"></path></svg></span></a>
+                                        </div>
+                                        <div class="code-box-description">
+                                            <div><p>Timing of scrolling to the next card/picture.</p></div>
+                                        </div>
+                                        <div class="code-box-actions">
+                                            <form action="https://codesandbox.io/api/v1/sandboxes/define"
+                                                  class="code-box-code-action" method="POST"
+                                                  target="_blank"><input name="parameters" type="hidden"
+                                                                         value="N4IgZglgNgpgziAXKADgQwMYGs0HMYB0AVnAPYB2SoGFALjObVSLRLbEiAMoYBOpUKAAI0AV1qkAtmlYY0ggJ5CAtCMYATAAIAWAgEYAbAQMgANCGkRKiEFfUwAHsQTn7KBvfIYI8Zmg2cuobGZiCa_rTK9nAQuOQA9BA05Ag2UDLwTOa8MJhMNgB6wXq6AAyhOXlRUpxFRiUE5dm5GJFwfBAotKkgBWWNIAC-rjAAbgAiMO7knt6-yCwK7u28nfm9_QCsQ-Yra6mgcLRovOuVrcp7XXBCRydZIABGotDqnOdtHddCz6-h9Ed3i1PqtvgDaCplAxRgBeEjqGrmGBEGCtIFVK7dITI1FMYZPfgAdzgMF4cCgEEBiAA2iAAHylAgAJgApKFyKQIfY0G9zByIT4hAAeGFCPR6dmcoSkFAAfUkVggIkEIAAuoN8XZHAQMHADiBkvRGJwdrYZtqSMxDQx1hBJChSKchAAlYFCMD8SRCADkH29AG4ADrkO0Op2uvLjADyAFl3Z6fR9qpIA8HQ46Id6Iup4upKbR4tmdXrUyH7RmfQREuanLq4AHTVqnAALWiSKBWug2zhCgCE0YAwgAVACaAAUAKJCVvtunBoUz4Tpci4GGBkAMddz8hCYXN3Lqbe73dCyQwY5CDDNk4k2hrkDiMDKAAcW-Dx-FZ4v5DQZ_vox8Qkw1oddLy7Rh70JCB1FoZsYXsACMBgZQoJg5tTCERVWHkS45FgGE9AwuBm1WcgsGUCRlEgO8OTfHdj1Pc80CEH8_3XWCYDPZQaCgR1QOtCD1wAYlKUSxLok94n3Hkj2FR5SHUBRZJPPNRkw9R70NNArFJUCjgUfD13QdQ8xXRAhCZbQUAcUD4mU4VMTpUYTiESRSFERgADkFJgIRRQRDBRDPRgCHwWgJ1gYLaAAIQUABJdQAApvS0nTeG9ABKf0hXiRz32FeJ5MU7ccsXOkhg1IA"/><span
+                                                class="anticon code-box-codesandbox" role="img"><svg
+                                                fill="currentColor" viewBox="0 0 1024 1024"><path
+                                                d="M755 140.3l0.5-0.3h0.3L512 0 268.3 140h-0.3l0.8 0.4L68.6 256v512L512 1024l443.4-256V256L755 140.3z m-30 506.4v171.2L548 920.1V534.7L883.4 341v215.7l-158.4 90z m-584.4-90.6V340.8L476 534.4v385.7L300 818.5V646.7l-159.4-90.6zM511.7 280l171.1-98.3 166.3 96-336.9 194.5-337-194.6 165.7-95.7L511.7 280z"></path></svg></span>
+                                            </form>
+                                            <form action="https://codepen.io/pen/define" class="code-box-code-action"
+                                                  method="POST" style="display:none" target="_blank"><input
+                                                name="data" type="hidden"
+                                                value="{&quot;title&quot;:&quot;Scroll automatically - antd@4.16.6&quot;,&quot;html&quot;:&quot;&lt;!DOCTYPE html&gt;\n&lt;html lang=\&quot;en\&quot;&gt;\n  &lt;head&gt;\n    &lt;meta charset=\&quot;utf-8\&quot;&gt;\n    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1, shrink-to-fit=no\&quot;&gt;\n    &lt;meta name=\&quot;theme-color\&quot; content=\&quot;#000000\&quot;&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;div id=\&quot;container\&quot; style=\&quot;padding: 24px\&quot; /&gt;\n    &lt;script&gt;var mountNode = document.getElementById(&#x27;container&#x27;);&lt;/script&gt;\n  &lt;/body&gt;\n&lt;/html&gt;&quot;,&quot;js&quot;:&quot;&quot;,&quot;css&quot;:&quot;@import &#x27;~antd/dist/antd.css&#x27;;\n\n&quot;,&quot;editors&quot;:&quot;001&quot;,&quot;css_external&quot;:&quot;https://unpkg.com/antd@4.16.6/dist/antd.css&quot;,&quot;js_external&quot;:&quot;https://unpkg.com/react@16.x/umd/react.development.js;https://unpkg.com/react-dom@16.x/umd/react-dom.development.js;https://unpkg.com/moment/min/moment-with-locales.js;https://unpkg.com/antd@4.16.6/dist/antd-with-locales.js;https://unpkg.com/@ant-design/icons/dist/index.umd.js;https://unpkg.com/react-router-dom/umd/react-router-dom.min.js;https://unpkg.com/react-router@3.x/umd/ReactRouter.min.js&quot;,&quot;js_pre_processor&quot;:&quot;typescript&quot;}"/><span
+                                                class="anticon code-box-codepen" role="img"><svg fill="currentColor"
+                                                                                                 viewBox="0 0 15 15"><path
+                                                d="M14.777304,4.75062256 L7.77734505,0.0839936563 C7.60939924,-0.0279665065 7.39060662,-0.0279665065 7.22266081,0.0839936563 L0.222701813,4.75062256 C0.0836082937,4.84334851 5.66973453e-05,4.99945222 4.6875e-05,5.16662013 L4.6875e-05,9.83324903 C4.6875e-05,10.0004355 0.0836088906,10.1565596 0.222701812,10.2492466 L7.22266081,14.9158755 C7.30662908,14.9718752 7.403316,14.999875 7.50000292,14.999875 C7.59668984,14.999875 7.69337678,14.9718752 7.77734505,14.9158755 L14.777304,10.2492466 C14.9163976,10.1565206 14.9999492,10.0004169 14.999959,9.83324903 L14.999959,5.16662013 C14.9999492,4.99945222 14.9163976,4.84334851 14.777304,4.75062256 Z M7.50000292,9.23237755 L4.90139316,7.4999502 L7.50000292,5.76755409 L10.0986127,7.4999502 L7.50000292,9.23237755 Z M8,4.89905919 L8,1.43423573 L13.598561,5.16665138 L10.9999824,6.89904747 L8,4.89905919 Z M7.00000586,4.89905919 L4.00002344,6.89904747 L1.40141366,5.16665138 L7.00000586,1.43423573 L7.00000586,4.89905919 Z M3.09865372,7.4999502 L1.00004102,8.89903575 L1.00004102,6.10089589 L3.09865372,7.4999502 Z M4.00002344,8.10085292 L7.00000586,10.1008412 L7.00000586,13.5656334 L1.40141366,9.83328028 L4.00002344,8.10085292 Z M8,10.1008412 L10.9999824,8.10085292 L13.5985922,9.83328028 L8,13.5656647 L8,10.1008412 L8,10.1008412 Z M11.9013521,7.4999502 L13.9999648,6.10089589 L13.9999648,8.899067 L11.9013521,7.4999502 Z"></path></svg></span>
+                                            </form>
+                                            <span class="code-box-code-action"><span aria-label="thunderbolt"
+                                                                                     class="anticon anticon-thunderbolt code-box-stackblitz"
+                                                                                     role="img"><svg
+                                                aria-hidden="true" data-icon="thunderbolt" fill="currentColor"
+                                                focusable="false" height="1em" viewBox="64 64 896 896" width="1em"><path
+                                                d="M848 359.3H627.7L825.8 109c4.1-5.3.4-13-6.3-13H436c-2.8 0-5.5 1.5-6.9 4L170 547.5c-3.1 5.3.7 12 6.9 12h174.4l-89.4 357.6c-1.9 7.8 7.5 13.3 13.3 7.7L853.5 373c5.2-4.9 1.7-13.7-5.5-13.7zM378.2 732.5l60.3-241H281.1l189.6-327.4h224.6L487 427.4h211L378.2 732.5z"></path></svg></span></span><span
+                                            aria-label="snippets"
+                                            class="anticon anticon-snippets code-box-code-copy code-box-code-action"
+                                            role="img"
+                                            tabindex="-1"><svg
+                                            aria-hidden="true" data-icon="snippets" fill="currentColor"
+                                            focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M832 112H724V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H500V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H320c-17.7 0-32 14.3-32 32v120h-96c-17.7 0-32 14.3-32 32v632c0 17.7 14.3 32 32 32h512c17.7 0 32-14.3 32-32v-96h96c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zM664 888H232V336h218v174c0 22.1 17.9 40 40 40h174v338zm0-402H514V336h.2L664 485.8v.2zm128 274h-56V456L544 264H360v-80h68v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h152v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h68v576z"></path></svg></span><span
+                                            class="code-expand-icon code-box-code-action"><img alt="expand code"
+                                                                                               class="code-expand-icon-show"
+                                                                                               src="https://gw.alipayobjects.com/zos/antfincdn/Z5c7kzvi30/expand.svg"/><img
+                                            alt="expand code"
+                                            class="code-expand-icon-hide"
+                                            src="https://gw.alipayobjects.com/zos/antfincdn/4zAaozCvUH/unexpand.svg"/></span>
+                                        </div>
+                                    </section>
+                                    <section class="highlight-wrapper">
+                                        <div class="highlight"><pre class="language-jsx"><code><span
+                                            class="token keyword">import</span> <span class="token punctuation">{</span> Carousel <span
+                                            class="token punctuation">}</span> <span
+                                            class="token keyword">from</span> <span
+                                            class="token string">'antd'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> contentStyle <span class="token operator">=</span> <span
+                                                class="token punctuation">{</span>
+  height<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  color<span class="token operator">:</span> <span class="token string">'#fff'</span><span
+                                                class="token punctuation">,</span>
+  lineHeight<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  textAlign<span class="token operator">:</span> <span class="token string">'center'</span><span
+                                                class="token punctuation">,</span>
+  background<span class="token operator">:</span> <span class="token string">'#364d79'</span><span
+                                                class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span
+                                                class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+      class="token class-name">Carousel</span></span> <span class="token attr-name">autoplay</span><span
+      class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">1</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">2</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">3</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">4</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span
+      class="token class-name">Carousel</span></span><span class="token punctuation">></span></span><span
+                                                class="token punctuation">,</span>
+  mountNode<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                                        </div>
+                                    </section>
+                                </section>
+                            </div>
+                            <div class="ant-col ant-col-12 code-boxes-col-2-1"
+                                 style="padding-left:8px;padding-right:8px">
+                                <section class="code-box" id="components-carousel-demo-position">
+                                    <section class="code-box-demo">
+                                        <div class="ant-radio-group ant-radio-group-outline" style="margin-bottom:8px">
+                                            <label
+                                                class="ant-radio-button-wrapper ant-radio-button-wrapper-checked"><span
+                                                class="ant-radio-button ant-radio-button-checked"><input checked=""
+                                                                                                         class="ant-radio-button-input"
+                                                                                                         type="radio"
+                                                                                                         value="top"/><span
+                                                class="ant-radio-button-inner"></span></span><span>Top</span></label><label
+                                            class="ant-radio-button-wrapper"><span class="ant-radio-button"><input
+                                            class="ant-radio-button-input" type="radio" value="bottom"/><span
+                                            class="ant-radio-button-inner"></span></span><span>Bottom</span></label><label
+                                            class="ant-radio-button-wrapper"><span class="ant-radio-button"><input
+                                            class="ant-radio-button-input" type="radio" value="left"/><span
+                                            class="ant-radio-button-inner"></span></span><span>Left</span></label><label
+                                            class="ant-radio-button-wrapper"><span class="ant-radio-button"><input
+                                            class="ant-radio-button-input" type="radio" value="right"/><span
+                                            class="ant-radio-button-inner"></span></span><span>Right</span></label>
+                                        </div>
+                                        <div class="ant-carousel">
+                                            <div class="slick-slider slick-initialized" dir="ltr">
+                                                <div class="slick-list">
+                                                    <div class="slick-track" style="width:900%;left:-100%">
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="-1" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="false"
+                                                             class="slick-slide slick-active slick-current"
+                                                             data-index="0"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    1</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="1"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    2</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="2"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    3</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="3"
+                                                             style="outline:none;width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="4" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    1</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="5" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    2</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="6" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    3</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide slick-cloned"
+                                                             data-index="7" style="width:11.11111111111111%"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="slick-dots slick-dots-top" style="display:block">
+                                                    <li class="slick-active">
+                                                        <button>1</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>2</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>3</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>4</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="code-box-meta markdown">
+                                        <div class="code-box-title"><a href="#components-carousel-demo-position">Position</a><a
+                                            class="edit-button"
+                                            href="https://github.com/ant-design/ant-design/edit/master/components/carousel/demo/position.md"
+                                            rel="noopener noreferrer" target="_blank"><span aria-label="edit"
+                                                                                            class="anticon anticon-edit"
+                                                                                            role="img"><svg
+                                            aria-hidden="true" data-icon="edit" fill="currentColor" focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"></path></svg></span></a>
+                                        </div>
+                                        <div class="code-box-description">
+                                            <div><p>There are 4 position options available.</p></div>
+                                        </div>
+                                        <div class="code-box-actions">
+                                            <form action="https://codesandbox.io/api/v1/sandboxes/define"
+                                                  class="code-box-code-action" method="POST"
+                                                  target="_blank"><input name="parameters" type="hidden"
+                                                                         value="N4IgZglgNgpgziAXKADgQwMYGs0HMYB0AVnAPYB2SoGFALjObVSLRLbEiAAqlxsQUABAFpBaRgBMAAgBYCARgBsBRSAA0IALZoIlRCF0SYAD2IINRlAyPkMEeM3G0JnOUpXqQUp8KN9c5AD0EDTkCPpQaPRwTBoATjCYTPoAeu7ycgAMnglJvqSanGnKGQTZ8YkYtMJwGHEQKLThIClZZSAAvhYwAG4AIjBW5DZ2DsgsAJ5WtfWNRW0ArJ0aMw1NzDFocckguVU1dWtwgpvbngBGAK7QLvp71auNx1c3ntE79wezTYLvIsIMHoAXhIEgKnhgRBgVU4n0eP0h0KYXRA5zipAA7nAYHE4FAIDEkABtEAAPkyBAATABSTzkUi0QRGNAuDT0xn2QQAHiBgnk8jpDMEpBQAH1NLoIGIoFAQABdDoowwmAgYODhah0Bg7ZYGYYqkjMUL0RicCCaFCkbaCABKlUZYHRmkEAHJ7i6ANwAHXI5st1rtST6AHkALKCR0FV2fMGaT0-v1WxkupwSQISAm0QKp1Xq-O-i1J10EYL60xquCe3XK0wAC1omll42N2s4XIAhCGAMIAFQAmlwAKKCeuN0k-rmjqCCSLkXBAr0gBiL8fkQTc2uJCSr9frrmaGC0NCCDC1rbY2gLkCXWhgYQADhXPt33IPR8E5DQB6vPXsGP9tCLieWqMFeGIQBItC1kCRi_hgMDCOBkG1mogiSqwaBQAcmEwEC8ioXAtb1OQWDCLQpDCJAl70k-a67vuh7Hp-36LlBMAHsINBQFaQEtqBi4AMSZMJIm0XugSbiyO7cucpASBM0l7hmPRoRIV7Gjo5A4kBMQTLAV7oBIGZzoggiUjIKDGEBgSKdy8Kkj0WyCJopCXIwAByckwIIvJghglwHowBD4LQg6wIFtAAEITAAkhIAAULoaboOIugAlB6XKBPZz7coEsnyauWVTqSnSKkAA"/><span
+                                                class="anticon code-box-codesandbox" role="img"><svg
+                                                fill="currentColor" viewBox="0 0 1024 1024"><path
+                                                d="M755 140.3l0.5-0.3h0.3L512 0 268.3 140h-0.3l0.8 0.4L68.6 256v512L512 1024l443.4-256V256L755 140.3z m-30 506.4v171.2L548 920.1V534.7L883.4 341v215.7l-158.4 90z m-584.4-90.6V340.8L476 534.4v385.7L300 818.5V646.7l-159.4-90.6zM511.7 280l171.1-98.3 166.3 96-336.9 194.5-337-194.6 165.7-95.7L511.7 280z"></path></svg></span>
+                                            </form>
+                                            <form action="https://codepen.io/pen/define" class="code-box-code-action"
+                                                  method="POST" style="display:none" target="_blank"><input
+                                                name="data" type="hidden"
+                                                value="{&quot;title&quot;:&quot;Position - antd@4.16.6&quot;,&quot;html&quot;:&quot;&lt;!DOCTYPE html&gt;\n&lt;html lang=\&quot;en\&quot;&gt;\n  &lt;head&gt;\n    &lt;meta charset=\&quot;utf-8\&quot;&gt;\n    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1, shrink-to-fit=no\&quot;&gt;\n    &lt;meta name=\&quot;theme-color\&quot; content=\&quot;#000000\&quot;&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;div id=\&quot;container\&quot; style=\&quot;padding: 24px\&quot; /&gt;\n    &lt;script&gt;var mountNode = document.getElementById(&#x27;container&#x27;);&lt;/script&gt;\n  &lt;/body&gt;\n&lt;/html&gt;&quot;,&quot;js&quot;:&quot;&quot;,&quot;css&quot;:&quot;@import &#x27;~antd/dist/antd.css&#x27;;\n\n&quot;,&quot;editors&quot;:&quot;001&quot;,&quot;css_external&quot;:&quot;https://unpkg.com/antd@4.16.6/dist/antd.css&quot;,&quot;js_external&quot;:&quot;https://unpkg.com/react@16.x/umd/react.development.js;https://unpkg.com/react-dom@16.x/umd/react-dom.development.js;https://unpkg.com/moment/min/moment-with-locales.js;https://unpkg.com/antd@4.16.6/dist/antd-with-locales.js;https://unpkg.com/@ant-design/icons/dist/index.umd.js;https://unpkg.com/react-router-dom/umd/react-router-dom.min.js;https://unpkg.com/react-router@3.x/umd/ReactRouter.min.js&quot;,&quot;js_pre_processor&quot;:&quot;typescript&quot;}"/><span
+                                                class="anticon code-box-codepen" role="img"><svg fill="currentColor"
+                                                                                                 viewBox="0 0 15 15"><path
+                                                d="M14.777304,4.75062256 L7.77734505,0.0839936563 C7.60939924,-0.0279665065 7.39060662,-0.0279665065 7.22266081,0.0839936563 L0.222701813,4.75062256 C0.0836082937,4.84334851 5.66973453e-05,4.99945222 4.6875e-05,5.16662013 L4.6875e-05,9.83324903 C4.6875e-05,10.0004355 0.0836088906,10.1565596 0.222701812,10.2492466 L7.22266081,14.9158755 C7.30662908,14.9718752 7.403316,14.999875 7.50000292,14.999875 C7.59668984,14.999875 7.69337678,14.9718752 7.77734505,14.9158755 L14.777304,10.2492466 C14.9163976,10.1565206 14.9999492,10.0004169 14.999959,9.83324903 L14.999959,5.16662013 C14.9999492,4.99945222 14.9163976,4.84334851 14.777304,4.75062256 Z M7.50000292,9.23237755 L4.90139316,7.4999502 L7.50000292,5.76755409 L10.0986127,7.4999502 L7.50000292,9.23237755 Z M8,4.89905919 L8,1.43423573 L13.598561,5.16665138 L10.9999824,6.89904747 L8,4.89905919 Z M7.00000586,4.89905919 L4.00002344,6.89904747 L1.40141366,5.16665138 L7.00000586,1.43423573 L7.00000586,4.89905919 Z M3.09865372,7.4999502 L1.00004102,8.89903575 L1.00004102,6.10089589 L3.09865372,7.4999502 Z M4.00002344,8.10085292 L7.00000586,10.1008412 L7.00000586,13.5656334 L1.40141366,9.83328028 L4.00002344,8.10085292 Z M8,10.1008412 L10.9999824,8.10085292 L13.5985922,9.83328028 L8,13.5656647 L8,10.1008412 L8,10.1008412 Z M11.9013521,7.4999502 L13.9999648,6.10089589 L13.9999648,8.899067 L11.9013521,7.4999502 Z"></path></svg></span>
+                                            </form>
+                                            <span class="code-box-code-action"><span aria-label="thunderbolt"
+                                                                                     class="anticon anticon-thunderbolt code-box-stackblitz"
+                                                                                     role="img"><svg
+                                                aria-hidden="true" data-icon="thunderbolt" fill="currentColor"
+                                                focusable="false" height="1em" viewBox="64 64 896 896" width="1em"><path
+                                                d="M848 359.3H627.7L825.8 109c4.1-5.3.4-13-6.3-13H436c-2.8 0-5.5 1.5-6.9 4L170 547.5c-3.1 5.3.7 12 6.9 12h174.4l-89.4 357.6c-1.9 7.8 7.5 13.3 13.3 7.7L853.5 373c5.2-4.9 1.7-13.7-5.5-13.7zM378.2 732.5l60.3-241H281.1l189.6-327.4h224.6L487 427.4h211L378.2 732.5z"></path></svg></span></span><span
+                                            aria-label="snippets"
+                                            class="anticon anticon-snippets code-box-code-copy code-box-code-action"
+                                            role="img"
+                                            tabindex="-1"><svg
+                                            aria-hidden="true" data-icon="snippets" fill="currentColor"
+                                            focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M832 112H724V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H500V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H320c-17.7 0-32 14.3-32 32v120h-96c-17.7 0-32 14.3-32 32v632c0 17.7 14.3 32 32 32h512c17.7 0 32-14.3 32-32v-96h96c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zM664 888H232V336h218v174c0 22.1 17.9 40 40 40h174v338zm0-402H514V336h.2L664 485.8v.2zm128 274h-56V456L544 264H360v-80h68v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h152v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h68v576z"></path></svg></span><span
+                                            class="code-expand-icon code-box-code-action"><img alt="expand code"
+                                                                                               class="code-expand-icon-show"
+                                                                                               src="https://gw.alipayobjects.com/zos/antfincdn/Z5c7kzvi30/expand.svg"/><img
+                                            alt="expand code"
+                                            class="code-expand-icon-hide"
+                                            src="https://gw.alipayobjects.com/zos/antfincdn/4zAaozCvUH/unexpand.svg"/></span>
+                                        </div>
+                                    </section>
+                                    <section class="highlight-wrapper">
+                                        <div class="highlight"><pre class="language-jsx"><code><span
+                                            class="token keyword">import</span> <span class="token punctuation">{</span> Carousel<span
+                                            class="token punctuation">,</span> Radio <span
+                                            class="token punctuation">}</span> <span
+                                            class="token keyword">from</span> <span
+                                            class="token string">'antd'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> contentStyle <span class="token operator">=</span> <span
+                                                class="token punctuation">{</span>
+  height<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  color<span class="token operator">:</span> <span class="token string">'#fff'</span><span
+                                                class="token punctuation">,</span>
+  lineHeight<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  textAlign<span class="token operator">:</span> <span class="token string">'center'</span><span
+                                                class="token punctuation">,</span>
+  background<span class="token operator">:</span> <span class="token string">'#364d79'</span><span
+                                                class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span
+    class="token keyword">const</span> <span class="token function-variable function">PositionCarouselDemo</span> <span
+                                                class="token operator">=</span> <span class="token punctuation">(</span><span
+                                                class="token punctuation">)</span> <span
+                                                class="token operator">=></span> <span
+                                                class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>dotPosition<span
+                                                class="token punctuation">,</span> setDotPosition<span
+                                                class="token punctuation">]</span> <span class="token operator">=</span> React<span
+                                                class="token punctuation">.</span><span
+                                                class="token function">useState</span><span
+                                                class="token punctuation">(</span><span
+                                                class="token string">'top'</span><span
+                                                class="token punctuation">)</span><span
+                                                class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> <span
+                                                class="token function-variable function">handlePositionChange</span> <span
+                                                class="token operator">=</span> <span class="token punctuation">(</span><span
+                                                class="token parameter"><span
+                                                class="token punctuation">{</span> target<span
+                                                class="token operator">:</span> <span class="token punctuation">{</span> value <span
+                                                class="token punctuation">}</span> <span
+                                                class="token punctuation">}</span></span><span
+                                                class="token punctuation">)</span> <span
+                                                class="token operator">=></span> <span
+                                                class="token punctuation">{</span>
+    <span class="token function">setDotPosition</span><span class="token punctuation">(</span>value<span
+                                                class="token punctuation">)</span><span
+                                                class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span></span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+          class="token class-name">Radio.Group</span></span> <span class="token attr-name">onChange</span><span
+          class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span
+          class="token punctuation">{</span>handlePositionChange<span class="token punctuation">}</span></span> <span
+          class="token attr-name">value</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>dotPosition<span
+          class="token punctuation">}</span></span> <span class="token attr-name">style</span><span
+          class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span
+          class="token punctuation">{</span><span class="token punctuation">{</span> marginBottom<span
+          class="token operator">:</span> <span class="token number">8</span> <span
+          class="token punctuation">}</span><span class="token punctuation">}</span></span><span
+          class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+            class="token class-name">Radio.Button</span></span> <span class="token attr-name">value</span><span
+            class="token attr-value"><span class="token punctuation attr-equals">=</span><span
+            class="token punctuation">"</span>top<span class="token punctuation">"</span></span><span
+            class="token punctuation">></span></span>Top<span class="token tag"><span class="token tag"><span
+                                                class="token punctuation">&lt;/</span><span class="token class-name">Radio.Button</span></span><span
+                                                class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+            class="token class-name">Radio.Button</span></span> <span class="token attr-name">value</span><span
+            class="token attr-value"><span class="token punctuation attr-equals">=</span><span
+            class="token punctuation">"</span>bottom<span class="token punctuation">"</span></span><span
+            class="token punctuation">></span></span>Bottom<span class="token tag"><span class="token tag"><span
+                                                class="token punctuation">&lt;/</span><span class="token class-name">Radio.Button</span></span><span
+                                                class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+            class="token class-name">Radio.Button</span></span> <span class="token attr-name">value</span><span
+            class="token attr-value"><span class="token punctuation attr-equals">=</span><span
+            class="token punctuation">"</span>left<span class="token punctuation">"</span></span><span
+            class="token punctuation">></span></span>Left<span class="token tag"><span class="token tag"><span
+                                                class="token punctuation">&lt;/</span><span class="token class-name">Radio.Button</span></span><span
+                                                class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+            class="token class-name">Radio.Button</span></span> <span class="token attr-name">value</span><span
+            class="token attr-value"><span class="token punctuation attr-equals">=</span><span
+            class="token punctuation">"</span>right<span class="token punctuation">"</span></span><span
+            class="token punctuation">></span></span>Right<span class="token tag"><span class="token tag"><span
+                                                class="token punctuation">&lt;/</span><span class="token class-name">Radio.Button</span></span><span
+                                                class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span
+          class="token class-name">Radio.Group</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+          class="token class-name">Carousel</span></span> <span class="token attr-name">dotPosition</span><span
+          class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span
+          class="token punctuation">{</span>dotPosition<span class="token punctuation">}</span></span><span
+          class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+            class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+              class="token attr-name">style</span><span class="token script language-javascript"><span
+              class="token script-punctuation punctuation">=</span><span
+              class="token punctuation">{</span>contentStyle<span class="token punctuation">}</span></span><span
+              class="token punctuation">></span></span><span class="token number">1</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+            class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+            class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+              class="token attr-name">style</span><span class="token script language-javascript"><span
+              class="token script-punctuation punctuation">=</span><span
+              class="token punctuation">{</span>contentStyle<span class="token punctuation">}</span></span><span
+              class="token punctuation">></span></span><span class="token number">2</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+            class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+            class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+              class="token attr-name">style</span><span class="token script language-javascript"><span
+              class="token script-punctuation punctuation">=</span><span
+              class="token punctuation">{</span>contentStyle<span class="token punctuation">}</span></span><span
+              class="token punctuation">></span></span><span class="token number">3</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+            class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+            class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+              class="token attr-name">style</span><span class="token script language-javascript"><span
+              class="token script-punctuation punctuation">=</span><span
+              class="token punctuation">{</span>contentStyle<span class="token punctuation">}</span></span><span
+              class="token punctuation">></span></span><span class="token number">4</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+            class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span
+          class="token class-name">Carousel</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span></span><span
+        class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span
+                                                class="token punctuation">(</span><span class="token tag"><span
+                                                class="token tag"><span class="token punctuation">&lt;</span><span
+                                                class="token class-name">PositionCarouselDemo</span></span> <span
+                                                class="token punctuation">/></span></span><span
+                                                class="token punctuation">,</span> mountNode<span
+                                                class="token punctuation">)</span><span
+                                                class="token punctuation">;</span></code></pre>
+                                        </div>
+                                    </section>
+                                </section>
+                                <section class="code-box" id="components-carousel-demo-fade">
+                                    <section class="code-box-demo">
+                                        <div class="ant-carousel">
+                                            <div class="slick-slider slick-initialized" dir="ltr">
+                                                <div class="slick-list">
+                                                    <div class="slick-track" style="width:900%;left:-100%">
+                                                        <div aria-hidden="false"
+                                                             class="slick-slide slick-active slick-current"
+                                                             data-index="0"
+                                                             style="outline:none;width:11.11111111111111%;position:relative;left:0;opacity:1;transition:opacity 500ms ease, visibility 500ms ease"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    1</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="1"
+                                                             style="outline:none;width:11.11111111111111%;position:relative;left:-11px;opacity:0;transition:opacity 500ms ease, visibility 500ms ease"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    2</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="2"
+                                                             style="outline:none;width:11.11111111111111%;position:relative;left:-22px;opacity:0;transition:opacity 500ms ease, visibility 500ms ease"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    3</h3></div>
+                                                            </div>
+                                                        </div>
+                                                        <div aria-hidden="true" class="slick-slide" data-index="3"
+                                                             style="outline:none;width:11.11111111111111%;position:relative;left:-33px;opacity:0;transition:opacity 500ms ease, visibility 500ms ease"
+                                                             tabindex="-1">
+                                                            <div>
+                                                                <div style="width:100%;display:inline-block"
+                                                                     tabindex="-1"><h3
+                                                                    style="height:160px;color:#fff;line-height:160px;text-align:center;background:#364d79">
+                                                                    4</h3></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="slick-dots slick-dots-bottom" style="display:block">
+                                                    <li class="slick-active">
+                                                        <button>1</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>2</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>3</button>
+                                                    </li>
+                                                    <li class="">
+                                                        <button>4</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="code-box-meta markdown">
+                                        <div class="code-box-title"><a href="#components-carousel-demo-fade">Fade in</a><a
+                                            class="edit-button"
+                                            href="https://github.com/ant-design/ant-design/edit/master/components/carousel/demo/fade.md"
+                                            rel="noopener noreferrer" target="_blank"><span aria-label="edit"
+                                                                                            class="anticon anticon-edit"
+                                                                                            role="img"><svg
+                                            aria-hidden="true" data-icon="edit" fill="currentColor" focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"></path></svg></span></a>
+                                        </div>
+                                        <div class="code-box-description">
+                                            <div><p>Slides use fade for transition.</p></div>
+                                        </div>
+                                        <div class="code-box-actions">
+                                            <form action="https://codesandbox.io/api/v1/sandboxes/define"
+                                                  class="code-box-code-action" method="POST"
+                                                  target="_blank"><input name="parameters" type="hidden"
+                                                                         value="N4IgZglgNgpgziAXKADgQwMYGs0HMYB0AVnAPYB2SoGFALjObVSLRLbEiAGJoAmMAAgjkBAWgFpGvAAIAWAgEYAbASUgANCAC2aYZ2H8AHsQSb-KBv3IYI8ZpNq9O85ao0hpD0fzgRc5AHoIGnIERBAoNHo4Jk0AJxhMJnCAPVcFeQAGdwSk71ItTjSVDIJs-MSMWlE4DDiIFFowkBSsspAAXzMYADcAERgLcisbO2QWAE8LWvrGoraAVk7NGYam5hi0OOSQXKqaurW4AU3t9wAjAFdoJ3C96tXG46ub92id-4PZpoF3sVEGD0ALwkXgFdwwIgwKqcT6PH6Q6FMLogc5xUgAdzgMDicCgEBiSAA2iAAHyZAgAJgApO5yKRaAJ-Hw6QyhIIADxAgQKBSsxmkFAAfS0wggEigUBAAF0OiiDDBjBg4GFqHQGDtliAFcYSMwQvRGPotChSNsBAAlSqMsDorQCADk9wdAG4ADrkCAms2Mq1JPoAeQAsgJbQVHZ8wVpXR6vabzQ6HLwArwCbQAkmCMq4DHPd6EwQgsNFVmVa6tTqCAALWhaKXjA0azgcgCEgYAwgAVACaAAUAKICGt10kejnDqACSLkXBAt0gBjz0ciATjxK8ZcCLerrQwWhoAQYKtbbG0OcgS60MCiAAcS49253e4P5DQu_PPVsGPjtHnh_VjDnhiEC8LQVZAvwn4YDAojAaBVbqEInqsGgUAHKhMBAgoiFwFW9TkFgoi0KQoiQGe9L3iuW4cru-4CK-77zmBMC7qINBQGaf6NoB84AMSZAJgmUdRARVuum6rucpC8BMEnUamPRCLw54Gro5A4n-MQTLA57oLwqYzogAiUrIKCGH-ARyau8Kkj0WwCFopCXIwABy0mCNyYIYJcu6MAQ-C0P2sC-bQABCEwAJK8AAFA6qnCDiDoAJQuhyAQ2Q-q4BFJMnLmlE6kp0cpAA"/><span
+                                                class="anticon code-box-codesandbox" role="img"><svg
+                                                fill="currentColor" viewBox="0 0 1024 1024"><path
+                                                d="M755 140.3l0.5-0.3h0.3L512 0 268.3 140h-0.3l0.8 0.4L68.6 256v512L512 1024l443.4-256V256L755 140.3z m-30 506.4v171.2L548 920.1V534.7L883.4 341v215.7l-158.4 90z m-584.4-90.6V340.8L476 534.4v385.7L300 818.5V646.7l-159.4-90.6zM511.7 280l171.1-98.3 166.3 96-336.9 194.5-337-194.6 165.7-95.7L511.7 280z"></path></svg></span>
+                                            </form>
+                                            <form action="https://codepen.io/pen/define" class="code-box-code-action"
+                                                  method="POST" style="display:none" target="_blank"><input
+                                                name="data" type="hidden"
+                                                value="{&quot;title&quot;:&quot;Fade in - antd@4.16.6&quot;,&quot;html&quot;:&quot;&lt;!DOCTYPE html&gt;\n&lt;html lang=\&quot;en\&quot;&gt;\n  &lt;head&gt;\n    &lt;meta charset=\&quot;utf-8\&quot;&gt;\n    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1, shrink-to-fit=no\&quot;&gt;\n    &lt;meta name=\&quot;theme-color\&quot; content=\&quot;#000000\&quot;&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;div id=\&quot;container\&quot; style=\&quot;padding: 24px\&quot; /&gt;\n    &lt;script&gt;var mountNode = document.getElementById(&#x27;container&#x27;);&lt;/script&gt;\n  &lt;/body&gt;\n&lt;/html&gt;&quot;,&quot;js&quot;:&quot;&quot;,&quot;css&quot;:&quot;@import &#x27;~antd/dist/antd.css&#x27;;\n\n&quot;,&quot;editors&quot;:&quot;001&quot;,&quot;css_external&quot;:&quot;https://unpkg.com/antd@4.16.6/dist/antd.css&quot;,&quot;js_external&quot;:&quot;https://unpkg.com/react@16.x/umd/react.development.js;https://unpkg.com/react-dom@16.x/umd/react-dom.development.js;https://unpkg.com/moment/min/moment-with-locales.js;https://unpkg.com/antd@4.16.6/dist/antd-with-locales.js;https://unpkg.com/@ant-design/icons/dist/index.umd.js;https://unpkg.com/react-router-dom/umd/react-router-dom.min.js;https://unpkg.com/react-router@3.x/umd/ReactRouter.min.js&quot;,&quot;js_pre_processor&quot;:&quot;typescript&quot;}"/><span
+                                                class="anticon code-box-codepen" role="img"><svg fill="currentColor"
+                                                                                                 viewBox="0 0 15 15"><path
+                                                d="M14.777304,4.75062256 L7.77734505,0.0839936563 C7.60939924,-0.0279665065 7.39060662,-0.0279665065 7.22266081,0.0839936563 L0.222701813,4.75062256 C0.0836082937,4.84334851 5.66973453e-05,4.99945222 4.6875e-05,5.16662013 L4.6875e-05,9.83324903 C4.6875e-05,10.0004355 0.0836088906,10.1565596 0.222701812,10.2492466 L7.22266081,14.9158755 C7.30662908,14.9718752 7.403316,14.999875 7.50000292,14.999875 C7.59668984,14.999875 7.69337678,14.9718752 7.77734505,14.9158755 L14.777304,10.2492466 C14.9163976,10.1565206 14.9999492,10.0004169 14.999959,9.83324903 L14.999959,5.16662013 C14.9999492,4.99945222 14.9163976,4.84334851 14.777304,4.75062256 Z M7.50000292,9.23237755 L4.90139316,7.4999502 L7.50000292,5.76755409 L10.0986127,7.4999502 L7.50000292,9.23237755 Z M8,4.89905919 L8,1.43423573 L13.598561,5.16665138 L10.9999824,6.89904747 L8,4.89905919 Z M7.00000586,4.89905919 L4.00002344,6.89904747 L1.40141366,5.16665138 L7.00000586,1.43423573 L7.00000586,4.89905919 Z M3.09865372,7.4999502 L1.00004102,8.89903575 L1.00004102,6.10089589 L3.09865372,7.4999502 Z M4.00002344,8.10085292 L7.00000586,10.1008412 L7.00000586,13.5656334 L1.40141366,9.83328028 L4.00002344,8.10085292 Z M8,10.1008412 L10.9999824,8.10085292 L13.5985922,9.83328028 L8,13.5656647 L8,10.1008412 L8,10.1008412 Z M11.9013521,7.4999502 L13.9999648,6.10089589 L13.9999648,8.899067 L11.9013521,7.4999502 Z"></path></svg></span>
+                                            </form>
+                                            <span class="code-box-code-action"><span aria-label="thunderbolt"
+                                                                                     class="anticon anticon-thunderbolt code-box-stackblitz"
+                                                                                     role="img"><svg
+                                                aria-hidden="true" data-icon="thunderbolt" fill="currentColor"
+                                                focusable="false" height="1em" viewBox="64 64 896 896" width="1em"><path
+                                                d="M848 359.3H627.7L825.8 109c4.1-5.3.4-13-6.3-13H436c-2.8 0-5.5 1.5-6.9 4L170 547.5c-3.1 5.3.7 12 6.9 12h174.4l-89.4 357.6c-1.9 7.8 7.5 13.3 13.3 7.7L853.5 373c5.2-4.9 1.7-13.7-5.5-13.7zM378.2 732.5l60.3-241H281.1l189.6-327.4h224.6L487 427.4h211L378.2 732.5z"></path></svg></span></span><span
+                                            aria-label="snippets"
+                                            class="anticon anticon-snippets code-box-code-copy code-box-code-action"
+                                            role="img"
+                                            tabindex="-1"><svg
+                                            aria-hidden="true" data-icon="snippets" fill="currentColor"
+                                            focusable="false"
+                                            height="1em" viewBox="64 64 896 896" width="1em"><path
+                                            d="M832 112H724V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H500V72c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v40H320c-17.7 0-32 14.3-32 32v120h-96c-17.7 0-32 14.3-32 32v632c0 17.7 14.3 32 32 32h512c17.7 0 32-14.3 32-32v-96h96c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zM664 888H232V336h218v174c0 22.1 17.9 40 40 40h174v338zm0-402H514V336h.2L664 485.8v.2zm128 274h-56V456L544 264H360v-80h68v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h152v32c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-32h68v576z"></path></svg></span><span
+                                            class="code-expand-icon code-box-code-action"><img alt="expand code"
+                                                                                               class="code-expand-icon-show"
+                                                                                               src="https://gw.alipayobjects.com/zos/antfincdn/Z5c7kzvi30/expand.svg"/><img
+                                            alt="expand code"
+                                            class="code-expand-icon-hide"
+                                            src="https://gw.alipayobjects.com/zos/antfincdn/4zAaozCvUH/unexpand.svg"/></span>
+                                        </div>
+                                    </section>
+                                    <section class="highlight-wrapper">
+                                        <div class="highlight"><pre class="language-jsx"><code><span
+                                            class="token keyword">import</span> <span class="token punctuation">{</span> Carousel <span
+                                            class="token punctuation">}</span> <span
+                                            class="token keyword">from</span> <span
+                                            class="token string">'antd'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> contentStyle <span class="token operator">=</span> <span
+                                                class="token punctuation">{</span>
+  height<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  color<span class="token operator">:</span> <span class="token string">'#fff'</span><span
+                                                class="token punctuation">,</span>
+  lineHeight<span class="token operator">:</span> <span class="token string">'160px'</span><span
+                                                class="token punctuation">,</span>
+  textAlign<span class="token operator">:</span> <span class="token string">'center'</span><span
+                                                class="token punctuation">,</span>
+  background<span class="token operator">:</span> <span class="token string">'#364d79'</span><span
+                                                class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span
+                                                class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span
+      class="token class-name">Carousel</span></span> <span class="token attr-name">effect</span><span
+      class="token attr-value"><span class="token punctuation attr-equals">=</span><span
+      class="token punctuation">"</span>fade<span class="token punctuation">"</span></span><span
+      class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">1</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">2</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">3</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span
+        class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span
+          class="token attr-name">style</span><span class="token script language-javascript"><span
+          class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>contentStyle<span
+          class="token punctuation">}</span></span><span class="token punctuation">></span></span><span
+                                                class="token number">4</span><span class="token tag"><span
+                                                class="token tag"><span
+                                                class="token punctuation">&lt;/</span>h3</span><span
+                                                class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span
+        class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span
+      class="token class-name">Carousel</span></span><span class="token punctuation">></span></span><span
+                                                class="token punctuation">,</span>
+  mountNode<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                                        </div>
+                                    </section>
+                                </section>
+                            </div>
+                        </div>
+                        <section class="markdown api-container"><h2 id="API"><span>API</span><a class="anchor"
+                                                                                                href="#API">#</a>
+                        </h2>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Default</th>
+                                    <th>Version</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>autoplay</td>
+                                    <td>Whether to scroll automatically</td>
+                                    <td>boolean</td>
+                                    <td>false</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>dotPosition</td>
+                                    <td>The position of the dots, which can be one of <code>top</code>
+                                        <code>bottom</code> <code>left</code> <code>right</code></td>
+                                    <td>string</td>
+                                    <td><code>bottom</code></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>dots</td>
+                                    <td>Whether to show the dots at the bottom of the gallery, <code>object</code> for
+                                        <code>dotsClass</code> and any others
+                                    </td>
+                                    <td>boolean <!-- -->|<!-- --> { className?: string }</td>
+                                    <td>true</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>easing</td>
+                                    <td>Transition interpolation function name</td>
+                                    <td>string</td>
+                                    <td><code>linear</code></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>effect</td>
+                                    <td>Transition effect</td>
+                                    <td><code>scrollx</code> <!-- -->|<!-- --> <code>fade</code></td>
+                                    <td><code>scrollx</code></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>afterChange</td>
+                                    <td>Callback function called after the current index changes</td>
+                                    <td>function(current)</td>
+                                    <td>-</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>beforeChange</td>
+                                    <td>Callback function called before the current index changes</td>
+                                    <td>function(from, to)</td>
+                                    <td>-</td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <h2 id="Methods"><span>Methods</span><a class="anchor" href="#Methods">#</a></h2>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>goTo(slideNumber, dontAnimate)</td>
+                                    <td>Go to slide index, if dontAnimate=true, it happens without animation</td>
+                                </tr>
+                                <tr>
+                                    <td>next()</td>
+                                    <td>Change current slide to next slide</td>
+                                </tr>
+                                <tr>
+                                    <td>prev()</td>
+                                    <td>Change current slide to previous slide</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p>Find more APIs in react-slick <a href="https://react-slick.neostack.com/docs/api">documentation</a>.
+                            </p>
+                            <h2 id="FAQ"><span>FAQ</span><a class="anchor" href="#FAQ">#</a></h2>
+                            <h3 id="How-to-add-custom-arrows?"><span>How to add custom arrows?</span><a
+                                class="anchor" href="#How-to-add-custom-arrows">#</a></h3>
+                            <p>See <a href="https://github.com/ant-design/ant-design/issues/12479">#12479</a>.</p>
+                        </section>
+                    </article>
+
+                </section>
+
+                <section class="prev-next-nav"></section>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="/index-cab025ce.js"></script>-->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72788897-1"></script>
+<script>
+    if (!location.port) {
+        // Enable Google Analytics
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-72788897-1');
+    }
+</script>
+
+<script>
+    (function (h, o, t, j, a, r) {
+        if (location.hostname === 'localhost') {
+            return;
+        }
+
+        h.hj =
+            h.hj ||
+            function () {
+                (h.hj.q = h.hj.q || []).push(arguments);
+            };
+        h._hjSettings = {hjid: 473408, hjsv: 5};
+        a = o.getElementsByTagName('head')[0];
+        r = o.createElement('script');
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
+</script>
+
+<script
+    data-cf-beacon='{"rayId":"66d519f4d8622f3a","version":"2021.6.0","r":1,"token":"99e8e5822a844cdaa1916725da659cf2","si":10}'
+    defer
+    src="https://static.cloudflareinsights.com/beacon.min.js"></script>
+</body>
+</html>

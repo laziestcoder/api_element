@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head layout:replace="~{/layouts/partials/head}"></head>
+<body class="" th:fragment="layout(vCenter, currentPage)">
+<div id="react-content">
+
+    <div class="main-wrapper">
+        <div class="ant-row">
+
+            <div layout:replace="~{layouts/partials/side-bar}"></div>
+
+            <div layout:fragment="content"></div>
+
+<!--            <div layout:insert="~{layouts/partials/footer}"></div>-->
+
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>
+
