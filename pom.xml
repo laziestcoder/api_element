@@ -59,6 +59,10 @@
 	<build>
 		<plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>3.0.3</version>
@@ -70,8 +74,15 @@
                     </includes>
                     <jdkVersion>${java.version}</jdkVersion>
                     <processTypes>
-                        <web>java -Dserver.port=$PORT $JAVA_OPTS -jar ./target/${project.build.finalName}.jar</web>
+                        <web>java -Dserver.port=$PORT $JAVA_OPTS -jar target/${project.build.finalName}.jar</web>
                     </processTypes>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.towfiq.api_element.ApiElementApplication</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
 		</plugins>
