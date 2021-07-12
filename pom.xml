@@ -70,7 +70,7 @@
                     </includes>
                     <jdkVersion>${java.version}</jdkVersion>
                     <processTypes>
-                        <web>java $JAVA_OPTS -jar ./target/${project.build.finalName}.jar</web>
+                        <web>java -Dserver.port=$PORT $JAVA_OPTS -jar ./target/${project.build.finalName}.jar</web>
                     </processTypes>
                 </configuration>
             </plugin>
