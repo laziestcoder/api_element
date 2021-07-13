@@ -76,13 +76,6 @@
                     <processTypes>
                         <web>java -Dserver.port=$PORT $JAVA_OPTS -jar target/${project.build.finalName}.jar</web>
                     </processTypes>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.towfiq.api_element.ApiElementApplication</mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
             </plugin>
 		</plugins>
